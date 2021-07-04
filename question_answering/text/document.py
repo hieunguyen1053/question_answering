@@ -21,3 +21,6 @@ class Document:
 
     def has(self, word: str):
         return self.count(word) > 0
+
+    def __str__(self) -> str:
+        return ' '.join([sent.__str__() for sent in self.sentences])

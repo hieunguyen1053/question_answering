@@ -17,3 +17,6 @@ class Sentence:
 
     def has(self, word: str):
         return self.count(word) > 0
+
+    def __str__(self) -> str:
+        return ' '.join(self.words)

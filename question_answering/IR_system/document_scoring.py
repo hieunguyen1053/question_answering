@@ -46,7 +46,9 @@ class DocumentScoring:
         docs_rank = {}
         for doc in self.documents:
             docs_rank[doc] = self.score(query, doc)
-        return sorted(self.documents, key=lambda x: docs_rank[x], reverse=True)
+        documents = sorted(self.documents, key=lambda x: docs_rank[x], reverse=True)
+        documents = filter(lambda doc: docs_rank[doc] > 0, documents)
+        return documents
 
 
 if __name__ == '__main__':
