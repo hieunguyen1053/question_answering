@@ -7,10 +7,9 @@ from typing import List
 from bs4 import BeautifulSoup
 from nltk import sent_tokenize
 from readability import Document as Content
-from ViNLP import word_tokenize
 
-from ..text.document import Document
-from ..text.sentence import Sentence
+from ..dataset.document import Document
+from ..dataset.sentence import Sentence
 
 
 class SearchEngine:
@@ -52,22 +51,22 @@ class SearchEngine:
 
     @classmethod
     def get_content(cls, url: str) -> str:
-        req = urllib.request.Request(url,
-                                     headers={'User-Agent': 'Mozilla/5.0'})
         try:
+            req = urllib.request.Request(url,
+                                         headers={'User-Agent': 'Mozilla/5.0'})
             resp = urllib.request.urlopen(req)
-        except:
-            return None
-        doc = Content(resp.read().decode('utf-8'))
-        soup = BeautifulSoup(doc.summary(), "lxml")
-        content = soup.get_text()
-        paragraphs = [p for p in (content.splitlines()) if p != '']
+            doc = Content(resp.read().decode('utf-8'))
+            soup = BeautifulSoup(doc.summary(), "lxml")
+            content = soup.get_dataset()
+            paragraphs = [p for p in (content.splitlines()) if p != '']
 
-        sents = []
-        for paragraph in paragraphs:
-            sents += sent_tokenize(paragraph)
-        sents = [Sentence(sent) for sent in sents]
-        return Document(sents)
+            sents = []
+            for paragraph in paragraphs:
+                sents += sent_tokenize(paragraph)
+            sents = [Sentence(sent) for sent in sents]
+            return Document(sents)
+        except Exception:
+            return None
 
     def get_all_contents(self, urls: List[str]) -> List[str]:
         contents = self.pool.map(self.get_content, urls)

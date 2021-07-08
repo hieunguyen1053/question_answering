@@ -3,8 +3,7 @@ from typing import List
 
 import numpy as np
 
-from ..text.document import Document
-from ..text.sentence import Sentence
+from ..dataset.document import Document
 
 
 class DocumentScoring:
@@ -49,21 +48,3 @@ class DocumentScoring:
         documents = sorted(self.documents, key=lambda x: docs_rank[x], reverse=True)
         documents = filter(lambda doc: docs_rank[doc] > 0, documents)
         return documents
-
-
-if __name__ == '__main__':
-    documents = [
-        Document(Sentence('Sweet sweet nurse Love')),
-        Document(Sentence('Sweet sorrow')),
-        Document(Sentence('How sweet is love')),
-        Document(Sentence('Nurse')),
-    ]
-    system = DocumentScoring(documents)
-    # print(system.score(['sweet', 'love'], system.documents[0]))
-    print(system.tf(['love', 'sweet', 'sorrow',
-          'how', 'nurse', 'is'], documents[0]))
-    print(system.df(['love', 'sweet', 'sorrow', 'how', 'nurse', 'is']))
-    print(system.idf(['love', 'sweet', 'sorrow', 'how', 'nurse', 'is']))
-    print(system.tf_idf(['love', 'sweet', 'sorrow',
-          'how', 'nurse', 'is'], documents[0]))
-    print(system.score(['sweet', 'love'], documents[0]))
