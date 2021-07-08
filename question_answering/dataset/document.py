@@ -9,17 +9,17 @@ class Document:
             self.sentences = sentences
 
     @property
-    def words(self):
+    def words(self) -> List[str]:
         words = set()
         for sentence in self.sentences:
             for word in sentence.words:
                 words.add(word)
         return words
 
-    def count(self, word: str):
+    def count(self, word: str) -> int:
         return sum(sent.count(word) for sent in self.sentences)
 
-    def has(self, word: str):
+    def has(self, word: str) -> bool:
         return self.count(word) > 0
 
     def __str__(self) -> str:

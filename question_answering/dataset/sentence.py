@@ -14,10 +14,10 @@ class Sentence:
         self.words = [word.lower() for word in self._words if word not in STOPWORDS]
         self.word_counter = Counter(self.words)
 
-    def count(self, word: str):
+    def count(self, word: str) -> int:
         return self.word_counter[word]
 
-    def has(self, word: str):
+    def has(self, word: str) -> bool:
         return self.count(word) > 0
 
     def __str__(self) -> str:
