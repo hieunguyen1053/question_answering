@@ -57,7 +57,7 @@ class SearchEngine:
             resp = urllib.request.urlopen(req)
             doc = Content(resp.read().decode('utf-8'))
             soup = BeautifulSoup(doc.summary(), "lxml")
-            content = soup.get_dataset()
+            content = soup.get_text()
             paragraphs = [p for p in (content.splitlines()) if p != '']
 
             sents = []
@@ -65,7 +65,7 @@ class SearchEngine:
                 sents += sent_tokenize(paragraph)
             sents = [Sentence(sent) for sent in sents]
             return Document(sents)
-        except Exception:
+        except Exception as e:
             return None
 
     def get_all_contents(self, urls: List[str]) -> List[str]:

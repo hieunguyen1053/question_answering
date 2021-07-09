@@ -2,23 +2,23 @@ from collections import Counter
 from typing import List, Union
 
 from ViNLP import word_tokenize
+
 from .stopwords import STOPWORDS
+
 
 class Sentence:
     def __init__(self, words: Union[List[str], str]):
         if isinstance(words, str):
-            self._words = word_tokenize(words)
+            self.words = word_tokenize(words)
         else:
-            self._words = words
+            self.words = words
 
-        self.words = [word.lower() for word in self._words if word not in STOPWORDS]
-        self.word_counter = Counter(self.words)
+    @property
+    def unique_words(self):
+        return set([word.lower() for word in self.words])
 
-    def count(self, word: str) -> int:
-        return self.word_counter[word]
-
-    def has(self, word: str) -> bool:
-        return self.count(word) > 0
+    def to_str(self):
+        return ' '.join(self.words)
 
     def __str__(self) -> str:
-        return ' '.join(self._words)
+        return self.to_str()
